@@ -1,6 +1,5 @@
 # Core dependencies
 python-dotenv==1.0.0
-sqlite3-python==1.0.0
 
 # Data manipulation
 pandas==2.2.0
