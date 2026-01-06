@@ -7,7 +7,7 @@ numpy==1.26.0
 faker==24.0.0
 
 # LLM Integration
-emergentintegrations==0.0.1
+emergentintegrations==0.1.0
 
 # Web scraping
 requests==2.31.0
