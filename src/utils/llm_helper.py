@@ -1,19 +1,21 @@
 import os
 import asyncio
 from typing import List, Optional
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+from groq import AsyncGroq
 from dotenv import load_dotenv
 import random
 
 load_dotenv()
 
 class LLMHelper:
-    """Helper class for LLM-based content generation."""
+    """Helper class for LLM-based content generation using Groq."""
     
-    def __init__(self, provider: str = "gemini", model: str = "gemini-3-flash-preview"):
-        self.api_key = os.getenv('EMERGENT_LLM_KEY')
-        self.provider = provider
+    def __init__(self, model: str = "llama-3.3-70b-versatile"):
+        self.api_key = os.getenv('GROQ_API_KEY')
+        if not self.api_key:
+            print("Warning: GROQ_API_KEY not found in environment variables")
         self.model = model
+        self.client = AsyncGroq(api_key=self.api_key)
         self.session_counter = 0
         
     def _get_session_id(self) -> str:
@@ -22,19 +24,25 @@ class LLMHelper:
         return f"asana-gen-{self.session_counter}-{random.randint(1000, 9999)}"
     
     async def generate_content(self, prompt: str, system_message: str = "You are a helpful assistant.", temperature: float = 0.7, timeout: int = 30) -> str:
-        """Generate content using LLM with timeout."""
+        """Generate content using Groq LLM with timeout."""
         try:
             # Add timeout to prevent hanging
-            chat = LlmChat(
-                api_key=self.api_key,
-                session_id=self._get_session_id(),
-                system_message=system_message
-            ).with_model(self.provider, self.model)
+            chat_completion = await asyncio.wait_for(
+                self.client.chat.completions.create(
+                    messages=[
+                        {"role": "system", "content": system_message},
+                        {"role": "user", "content": prompt}
+                    ],
+                    model=self.model,
+                    temperature=temperature,
+                    max_tokens=100  # Short responses for names/descriptions
+                ),
+                timeout=timeout
+            )
             
-            user_message = UserMessage(text=prompt)
-            response = await asyncio.wait_for(chat.send_message(user_message), timeout=timeout)
+            response = chat_completion.choices[0].message.content
+            return response.strip() if response else ""
             
-            return response.strip()
         except asyncio.TimeoutError:
             print(f"LLM generation timeout after {timeout}s")
             return ""
