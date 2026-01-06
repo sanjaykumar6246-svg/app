@@ -173,8 +173,9 @@ class ProjectGenerator:
             prompt = f"Generate ONE realistic Asana project name for a {project_type} project in a {team.team_type} team at a B2B SaaS company. Only return the project name, nothing else."
             prompts.append(prompt)
         
-        # Batch generate project names with smaller batch size and delays
-        project_names = await self.llm_helper.generate_batch(prompts[:num_projects], batch_size=20, delay=2.0)
+        # Batch generate project names with rate-limit friendly settings
+        # Groq free tier: 30 requests/minute, so we use 5 per batch with 12s delay
+        project_names = await self.llm_helper.generate_batch(prompts[:num_projects], batch_size=5, delay=12.0)
         
         for i, (team, project_type) in enumerate(project_metadata):
             # Use LLM-generated name if available, otherwise use fallback

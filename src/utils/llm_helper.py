@@ -50,14 +50,14 @@ class LLMHelper:
             print(f"LLM generation error: {e}")
             return ""
     
-    async def generate_batch(self, prompts: List[str], system_message: str = "You are a helpful assistant.", batch_size: int = 10, delay: float = 1.0) -> List[str]:
-        """Generate multiple content pieces in smaller batches with delays.
+    async def generate_batch(self, prompts: List[str], system_message: str = "You are a helpful assistant.", batch_size: int = 5, delay: float = 12.0) -> List[str]:
+        """Generate multiple content pieces in smaller batches with delays to respect rate limits.
         
         Args:
             prompts: List of prompts to process
             system_message: System message for the LLM
-            batch_size: Number of prompts to process concurrently (default: 10)
-            delay: Delay in seconds between batches (default: 1.0)
+            batch_size: Number of prompts to process concurrently (default: 5 for Groq 30 RPM limit)
+            delay: Delay in seconds between batches (default: 12.0 to stay under 30 RPM)
         
         Returns:
             List of generated content strings
@@ -69,7 +69,7 @@ class LLMHelper:
             batch = prompts[i:i + batch_size]
             batch_num = i // batch_size + 1
             
-            print(f"  Processing batch {batch_num}/{total_batches} ({len(batch)} items)...")
+            print(f"  Processing batch {batch_num}/{total_batches} ({len(batch)} items)... [Rate limit: 30 RPM]")
             
             tasks = [self.generate_content(prompt, system_message) for prompt in batch]
             batch_results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -83,7 +83,9 @@ class LLMHelper:
                     results.append(result)
             
             # Add delay between batches to avoid rate limiting
+            # Groq free tier: 30 requests/minute = need to wait 12 seconds per 5-request batch
             if i + batch_size < len(prompts):
+                print(f"  Waiting {delay}s to respect rate limit...")
                 await asyncio.sleep(delay)
         
         return results
