@@ -8,7 +8,7 @@ This system generates realistic enterprise-grade data that faithfully simulates 
 
 - **Organizations & Users** with realistic demographic distributions
 - **Teams & Projects** with appropriate team structures
-- **Tasks & Subtasks** with LLM-generated content
+- **Tasks & Subtasks** with LLM-generated content using **Groq (FREE & Fast)**
 - **Comments & Discussions** on tasks
 - **Custom Fields** for different project types
 - **Tags & Attachments** with realistic patterns
@@ -19,7 +19,7 @@ This system generates realistic enterprise-grade data that faithfully simulates 
 
 - Python 3.8+
 - pip package manager
-- Emergent LLM Key (or your own Google/Anthropic API key)
+- **FREE Groq API Key** (get from https://console.groq.com/keys)
 
 ### Installation
 
@@ -35,10 +35,12 @@ This system generates realistic enterprise-grade data that faithfully simulates 
    cp .env.example .env
    ```
    
-   Edit `.env` and set your API key:
+   Edit `.env` and set your **FREE Groq API key**:
    ```
-   EMERGENT_LLM_KEY=your-key-here
+   GROQ_API_KEY=your-groq-api-key-here
    ```
+   
+   Get your free key at: **https://console.groq.com/keys**
 
 ### Running the Generator
 
