@@ -65,7 +65,7 @@ class TaskGenerator:
                 prompt = self._get_task_name_prompt(project)
                 prompts.append(prompt)
             
-            task_names = await self.llm_helper.generate_batch(prompts[:min(num_tasks, 50)])
+            task_names = await self.llm_helper.generate_batch(prompts[:min(num_tasks, 50)], batch_size=5, delay=12.0)
             
             # Pad with fallback names if needed
             while len(task_names) < num_tasks:
