@@ -142,9 +142,26 @@ class ProjectGenerator:
         }
         
         # Generate project names using LLM
-        print("Generating project names with LLM...")
+        print("Generating project names with LLM (in batches)...")
         prompts = []
         project_metadata = []
+        
+        # Fallback project name templates
+        fallback_names = {
+            'sprint': ['Sprint {}', 'Development Sprint {}', 'Iteration {}', 'Sprint Planning {}'],
+            'bug_tracking': ['Bug Fixes {}', 'Issues Tracker {}', 'Bug Management {}'],
+            'infrastructure': ['Infrastructure {}', 'DevOps {}', 'Platform Work {}'],
+            'feature_dev': ['Feature Development {}', 'New Features {}', 'Product Features {}'],
+            'roadmap': ['Product Roadmap {}', 'Roadmap Planning {}', 'Strategy {}'],
+            'research': ['User Research {}', 'Product Research {}', 'Market Research {}'],
+            'planning': ['Planning {}', 'Strategic Planning {}', 'Quarterly Planning {}'],
+            'campaign': ['Marketing Campaign {}', 'Campaign {}', 'Launch Campaign {}'],
+            'content': ['Content Creation {}', 'Content Strategy {}', 'Content Planning {}'],
+            'events': ['Event Planning {}', 'Events {}', 'Conference {}'],
+            'process': ['Process Improvement {}', 'Ops Process {}', 'Workflow {}'],
+            'ops': ['Operations {}', 'Ops Work {}', 'Operational Planning {}'],
+            'general': ['Project {}', 'Initiative {}', 'Workstream {}']
+        }
         
         for i in range(num_projects):
             team = random.choice(teams)
@@ -156,11 +173,18 @@ class ProjectGenerator:
             prompt = f"Generate ONE realistic Asana project name for a {project_type} project in a {team.team_type} team at a B2B SaaS company. Only return the project name, nothing else."
             prompts.append(prompt)
         
-        # Batch generate project names
-        project_names = await self.llm_helper.generate_batch(prompts[:num_projects])
+        # Batch generate project names with smaller batch size and delays
+        project_names = await self.llm_helper.generate_batch(prompts[:num_projects], batch_size=20, delay=2.0)
         
         for i, (team, project_type) in enumerate(project_metadata):
-            project_name = project_names[i] if i < len(project_names) and project_names[i] else f"{team.name} - Project {i+1}"
+            # Use LLM-generated name if available, otherwise use fallback
+            if i < len(project_names) and project_names[i]:
+                project_name = project_names[i]
+            else:
+                # Use fallback template
+                templates = fallback_names.get(project_type, fallback_names['general'])
+                template = random.choice(templates)
+                project_name = f"{team.name} - {template.format(i+1)}"
             
             created_at = self.date_helper.weighted_creation_date()
             
