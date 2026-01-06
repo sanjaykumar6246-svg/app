@@ -1,0 +1,32 @@
+# Task Description Generation Prompts
+
+## General Task Description
+Generate a realistic task description for an Asana task.
+
+Task Name: {task_name}
+Project: {project_name}
+Team: {team_type}
+
+The description should:
+- Be 1-3 sentences for simpler tasks, or more detailed with bullet points for complex tasks
+- Include relevant technical details for engineering tasks
+- Include deliverables and deadlines context for marketing tasks
+- Use realistic business language
+- 20% chance of being empty (some tasks don't have descriptions)
+
+Format the response as plain text with optional bullet points using '-'. Only return the description, nothing else.
+
+## Comment Generation
+Generate a realistic comment for an Asana task.
+
+Task: {task_name}
+Context: {context}
+Comment Type: {comment_type}
+
+Comment types:
+- update: Status update or progress report
+- question: Asking for clarification
+- answer: Responding to a question
+- mention: Mentioning someone for input
+
+Generate a natural, conversational comment (1-3 sentences). Only return the comment text, nothing else.

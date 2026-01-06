@@ -1,0 +1,63 @@
+# Task Name Generation Prompts
+
+## Engineering Task Names
+Generate a realistic software engineering task name following the pattern: [Component] - [Action] - [Detail]
+
+Context:
+- Project: {project_name}
+- Type: {project_type}
+- Team: Engineering
+
+Examples:
+- API - Implement - User authentication endpoint
+- Frontend - Fix - Button alignment on mobile
+- Database - Optimize - Query performance for reports
+- Backend - Refactor - Payment processing module
+
+Generate ONE task name that fits this project. Be specific and technical. Only return the task name, nothing else.
+
+## Marketing Task Names
+Generate a realistic marketing task name following the pattern: [Campaign/Initiative] - [Deliverable]
+
+Context:
+- Project: {project_name}
+- Type: Marketing
+- Company: B2B SaaS
+
+Examples:
+- Q4 Launch Campaign - Social media assets
+- Product Demo - Video script v2
+- Email Campaign - Nurture sequence copy
+- Website Redesign - Landing page mockups
+
+Generate ONE task name. Only return the task name, nothing else.
+
+## Product Task Names
+Generate a realistic product management task name.
+
+Context:
+- Project: {project_name}
+- Type: Product
+
+Examples:
+- User research synthesis for Q1 roadmap
+- Competitor analysis - Feature comparison
+- PRD - New analytics dashboard
+- Customer feedback review - Mobile app
+
+Generate ONE task name. Only return the task name, nothing else.
+
+## Operations Task Names
+Generate a realistic operations/business task name.
+
+Context:
+- Project: {project_name}
+- Type: Operations
+
+Examples:
+- Update employee handbook - Remote work policy
+- Q1 budget review - Department allocations
+- Vendor evaluation - New HR software
+- Process documentation - Expense reimbursement
+
+Generate ONE task name. Only return the task name, nothing else.

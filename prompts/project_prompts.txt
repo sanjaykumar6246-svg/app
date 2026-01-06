@@ -1,0 +1,43 @@
+# Project Name and Description Prompts
+
+## Project Name
+Generate a realistic Asana project name for a {project_type} project in a B2B SaaS company.
+
+Project types and examples:
+
+Engineering:
+- Q1 2025 Sprint - Backend Infrastructure
+- Mobile App v2.0 Development
+- Bug Bash - Payment System
+- API v3 Migration
+
+Marketing:
+- Q4 Product Launch Campaign
+- Content Calendar - January 2025
+- Website Redesign Project
+- Lead Generation - Enterprise
+
+Product:
+- Product Roadmap Q1 2025
+- User Research - Analytics Feature
+- Beta Program - New Dashboard
+- Feature Specs - Integrations
+
+Operations:
+- Onboarding Process Improvement
+- Q1 OKR Planning
+- Vendor Management 2025
+- Team Building - Annual Offsite
+
+Generate ONE project name. Only return the project name, nothing else.
+
+## Project Description
+Generate a realistic project description for: {project_name}
+
+The description should:
+- Explain the project's goals and scope (2-4 sentences)
+- Be specific to the project type
+- Include relevant stakeholders or timelines if applicable
+- Use professional business language
+
+Only return the description, nothing else.
