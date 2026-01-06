@@ -29,7 +29,7 @@ class AsanaSimulationGenerator:
         end_date = os.getenv('END_DATE', '2025-01-31')
         
         self.date_helper = DateHelper(start_date, end_date)
-        self.llm_helper = LLMHelper(provider='gemini', model='gemini-3-flash-preview')
+        self.llm_helper = LLMHelper(model='llama-3.3-70b-versatile')
         
         # Ensure output directory exists
         Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
