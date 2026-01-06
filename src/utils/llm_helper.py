@@ -82,10 +82,10 @@ class LLMHelper:
                 else:
                     results.append(result)
             
-            # Add delay between batches to avoid rate limiting
+            # Add delay after EVERY batch to avoid rate limiting
             # Groq free tier: 30 requests/minute = need to wait 12 seconds per 5-request batch
-            if i + batch_size < len(prompts):
-                print(f"  Waiting {delay}s to respect rate limit...")
-                await asyncio.sleep(delay)
+            # This applies to all batches, including the last one
+            print(f"  Waiting {delay}s to respect rate limit...")
+            await asyncio.sleep(delay)
         
         return results
