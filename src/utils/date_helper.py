@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, date
+from typing import Optional
 import random
 import numpy as np
 
